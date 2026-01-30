@@ -1,17 +1,16 @@
 <html>
 <head>
     {% load static %}
-    <script src="https://unpkg.com/htmx.org@2.0.2" integrity="sha384-Y7hw+L/jvKeWIRRkqWYfPcvVxHzVzn5REgzbawhxAuQGwX1XWe70vji+VSeHOThJ" crossorigin="anonymous"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.8/dist/htmx.js" integrity="sha384-ezjq8118wdwdRMj+nX4bevEi+cDLTbhLAeFF688VK8tPDGeLUe0WoY2MZtSla72F" crossorigin="anonymous"></script>
     <script>
 
             // Record the click on a response button 
             function record(buttonID) {
                 return function () {
                     id = document.getElementById(buttonID)
-                    val = document.getElementById("times").value
-                    val = val + ` ${id.innerText}:${Date.now()}`
-                    document.getElementById("times").value = val
+                    responseitem = ` ${id.innerText}:${Date.now()}`
+                    localStorage.setItem("response", localStorage.getItem("response") + responseitem)
+                    console.log("Button clicked. Response: " + localStorage.getItem("response"))
                 }
             }
 
@@ -43,7 +42,9 @@
                 stimulus = new Audio(x)
                 stimulus.addEventListener("ended", function(){
                     toggle()
-                    document.getElementById("times").value=`${Date.now()}`
+                    now = `${Date.now()}`
+                    localStorage.setItem("response", localStorage.getItem("response") + `${now}`)
+                    console.log("Audio ended. Response: " + localStorage.getItem("response"))
                 });
 
                 stimulus.addEventListener("play", function(){
@@ -58,6 +59,8 @@
                 document.getElementById("button1").onclick = record("button1")
                 document.getElementById("button2").onclick = record("button2")
                 document.getElementById("button3").onclick = record("button3")
+                localStorage.clear()
+                localStorage.setItem("response", "")
 
             });
         
@@ -99,12 +102,11 @@
 
 <br><br>
 
-<input id="times" value="" type="hidden" name="times"  ></input>
-
 <button id="next" style="display: none" 
-hx-trigger="click" hx-post="{% url 'htmx:response' %}" hx-include="#times" 
-hx-target="#times" hx-swap="outerHTML"
-hx-on::after-request="toggle()">
+hx-trigger="click" hx-post="{% url 'htmx:response' %}"
+hx-vals="js:{ response: localStorage.getItem('response') }"
+hx-target="#answer" hx-swap="innerHTML"
+hx-on::after-request="localStorage.setItem('response',''); toggle();">
     Next  
 </button>
 

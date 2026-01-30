@@ -30,10 +30,10 @@ def compute(request, value):
             # Retrieve the precomputed value
             computed = precomputed.first()
         
-        # Returnthe result page
+        # Return the result page
         return render (
             request,
-            "basic/compute.html", # Template file
+            "basic/compute.html", # Template html file; contains placeholders for output
             {
                 'input': input,
                 'output': computed.output,

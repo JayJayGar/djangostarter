@@ -103,7 +103,7 @@ def jsdemo(request):
 
 @require_POST
 def jsresponse(request):
-    times = request.POST['times']
+    times = request.POST['response']
     responses = times.split(" ")
     previous = int(responses[0])
     responses.pop(0)

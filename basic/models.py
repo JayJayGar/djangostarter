@@ -11,5 +11,9 @@ class Computed(models.Model):
 
     def __str__(self):
         return(f"{self.input} -> {self.output}")
-
+    
+class PrimeCheck(models.Model):
+    input = models.IntegerField()
+    is_prime = models.BooleanField()
+    divisor = models.IntegerField(null=True, blank=True)
 

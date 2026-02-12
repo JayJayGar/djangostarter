@@ -5,4 +5,5 @@ app_name="basic"
 
 urlpatterns = [
     path("compute/<int:value>", views.compute, name="compute"),
+    path('isprime/<int:number>/', views.is_prime, name='isprime')
 ]

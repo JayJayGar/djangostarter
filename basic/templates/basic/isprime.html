@@ -1,0 +1,7 @@
+<h1>Prime Home Page</h1>
+
+{% if is_prime %}
+{{ input }} is a prime number because it has no divisors
+{% else %}
+{{ input }} is not a prime number because {{ divisor }} is a divisor
+{% endif %}

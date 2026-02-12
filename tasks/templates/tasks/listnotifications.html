@@ -1,0 +1,21 @@
+<html>
+
+<h1> Notification Dashboard</h1>
+
+<body>
+    {% if member %}
+    Notifications for member {{username}} are as follows:
+
+    <ol>
+        {% for notification in notifications %}
+        <li>{{notification.message}}</li>
+        {% endfor %}
+    </ol>
+    {% else %}
+    A member with the name {{username}} does not exist.
+    {% endif %}
+
+</body>
+
+
+</html>

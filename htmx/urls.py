@@ -25,6 +25,8 @@ urlpatterns = [
     path('tasks4project/', views.tasks4project, name='tasks4project' ),
 
     path("jsdemo", views.jsdemo, name="jsdemo"),
-    path("response", views.jsresponse, name="response")
+    path("response", views.jsresponse, name="response"),
 
-]
+    path('assignment/',         views.assignment,        name='assignment'),
+    path('assignment/search/',  views.assignment_search, name='assignment_search')
+    ]

@@ -1,0 +1,10 @@
+{% if message %}
+  <p>{{ message }}</p>
+  {% for result in results %}
+    {% if search_type == "notifications" %}
+      <p>{{ result.message }}</p>
+    {% else %}
+      <p>{{ result.description }} in project {{ result.project.name }}</p>
+    {% endif %}
+  {% endfor %}
+{% endif %}

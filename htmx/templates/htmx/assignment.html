@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block title %} Search {% endblock %}
+
+{% block content %}
+<div class="container">
+  <h1 class="py-2 font-semibold text-xl">Tasks/Notifications Search</h1>
+  <div class="px-4">
+    <label class="block mt-2 font-medium">Member ID</label>
+    <input type="text" id="member_id" name="member_id" class="block mt-2 border border-black bg-gray-50 rounded"></input>
+    <label class="block mt-2 font-medium">Type</label>
+    <select name="type" id="type" class="block mt-2 mb-4 border border-black">
+      <option value="notifications">Notifications</option>
+      <option value="tasks">Tasks</option>
+    </select>
+    <button hx-get="{% url 'htmx:assignment_search' %}" hx-trigger="click" hx-target="#results" hx-include="#member_id, #type"
+      class="block mt-2 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded dark:hover:text-white">
+      Search
+    </button>
+
+    <div class="py-2" id="results"></div>
+  </div>
+</div>
+{% endblock %}

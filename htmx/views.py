@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.decorators.http import require_GET, require_POST
 import random
-from tasks.models import Project, Task
+from tasks.models import Project, Task, Notification, Member
 
 # Read the URLs for NASA images
 imageurls = open("static/nasa_imageurls").readlines()
@@ -117,3 +117,35 @@ def jsresponse(request):
     return render(request, "htmx/partials/times.html",{
         'answer': answer
     }) 
+
+@require_GET
+def assignment(request):
+    return render(request, "htmx/assignment.html", {})
+
+@require_GET
+def assignment_search(request):
+    member_id = request.GET.get("member_id", "").strip()
+    search_type = request.GET.get("type", "notifications").lower()
+
+    member = Member.objects.filter(username=member_id).first()
+
+    if not member:
+        message = f"Team member with the name {member_id} does not exist."
+        results = []
+    else:
+        results = list(
+            member.notification_set.all()
+            if search_type == "notifications"
+            else member.task_set.all()
+        )
+        message = (
+            f"There are no {search_type} for member {member_id}"
+            if not results
+            else f"{search_type.capitalize()} for team member {member_id} are as follows"
+        )
+
+    return render(request, "htmx/partials/assignment_results.html", {
+        "results": results,
+        "message": message,
+        "search_type": search_type,
+    })

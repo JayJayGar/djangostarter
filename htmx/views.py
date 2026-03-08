@@ -1,6 +1,8 @@
+from django.utils import timezone
 from django.shortcuts import render
 from django.views.decorators.http import require_GET, require_POST
 import random
+from htmx.models import Response
 from tasks.models import Project, Task, Notification, Member
 
 # Read the URLs for NASA images
@@ -108,15 +110,44 @@ def jsresponse(request):
     previous = int(responses[0])
     responses.pop(0)
     answer = "Server received: "
+    button1 = ""
+    latency1 = -1
+    button2 = ""
+    latency2 = -1
+    button3 = ""
+    latency3 = -1
+    buttonNum = 1
     for response in responses:
         values = response.split(':')
         button = values[0]
         latency = (int(values[1]) - previous)/1000
         previous = int(values[1])
         answer = f"{answer} Button {button} after a latency of {latency} seconds. "
-    return render(request, "htmx/partials/times.html",{
-        'answer': answer
-    }) 
+        if buttonNum == 1:
+            button1 = button
+            latency1 = latency
+        if buttonNum == 2:
+            button2 = button
+            latency2 = latency
+        if buttonNum == 3:
+            button3 = button
+            latency3 = latency
+        buttonNum += 1
+    timeCompleted = timezone.now()
+    responseObj = Response(
+        test_time=timeCompleted,
+        button1=str(button1),
+        latency1=latency1,
+        button2=str(button2),
+        latency2=latency2,
+        button3=str(button3),
+        latency3=latency3,
+    )
+    responseObj.save()
+    return render(request, "htmx/partials/times.html", {
+        'answer': answer,
+        'recent': Response.objects.all().order_by('-test_time')
+    })
 
 @require_GET
 def assignment(request):

@@ -8,7 +8,7 @@
             function record(buttonID) {
                 return function () {
                     id = document.getElementById(buttonID)
-                    responseitem = ` ${id.innerText}:${Date.now()}`
+                    responseitem = ` ${id.innerText.trim()}:${Date.now()}`
                     localStorage.setItem("response", localStorage.getItem("response") + responseitem)
                     console.log("Button clicked. Response: " + localStorage.getItem("response"))
                 }
@@ -31,6 +31,9 @@
                 togglevisibility("button1")
                 togglevisibility("button2")
                 togglevisibility("button3")
+                togglevisibility("buttonA")
+                togglevisibility("buttonB")
+                togglevisibility("buttonC")
                 togglevisibility("next")
             }
         
@@ -59,6 +62,9 @@
                 document.getElementById("button1").onclick = record("button1")
                 document.getElementById("button2").onclick = record("button2")
                 document.getElementById("button3").onclick = record("button3")
+                document.getElementById("buttonA").onclick = record("buttonA")
+                document.getElementById("buttonB").onclick = record("buttonB")
+                document.getElementById("buttonC").onclick = record("buttonC")
                 localStorage.clear()
                 localStorage.setItem("response", "")
 
@@ -83,20 +89,25 @@
 <table>
 <tr>
 <td>
-    <button id="button1" style="display: none">
+    <button id="button1" style="display: none; width:60px; height:60px; font-size:20px;">
         1
     </button>
 </td>
 <td>
-    <button id="button2" style="display: none">
+    <button id="button2" style="display: none; width:60px; height:60px; font-size:20px;">
         2
     </button>
 </td>
 <td>
-    <button id="button3" style="display: none">
+    <button id="button3" style="display: none; width:60px; height:60px; font-size:20px;">
         3
     </button>
 </td>
+</tr>
+<tr>
+    <td><button id="buttonA" style="display:none; width:60px; height:60px; font-size:20px;">A</button></td>
+    <td><button id="buttonB" style="display:none; width:60px; height:60px; font-size:20px;">B</button></td>
+    <td><button id="buttonC" style="display:none; width:60px; height:60px; font-size:20px;">C</button></td>
 </tr>
 </table>
 

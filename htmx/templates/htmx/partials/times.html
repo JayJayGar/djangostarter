@@ -1,3 +1,31 @@
+{{ answer }}
 
-
-{{answer}}
+{% if recent %}
+<h3>Recent Responses</h3>
+<table border="1" cellpadding="6" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Test Time</th>
+            <th>Button 1</th>
+            <th>Latency 1</th>
+            <th>Button 2</th>
+            <th>Latency 2</th>
+            <th>Button 3</th>
+            <th>Latency 3</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for r in recent %}
+        <tr>
+            <td>{{ r.test_time|date:"Y-m-d H:i:s" }}</td>
+            <td>{{ r.button1 }}</td>
+            <td>{{ r.latency1|floatformat:3 }} sec</td>
+            <td>{{ r.button2 }}</td>
+            <td>{{ r.latency2|floatformat:3 }} sec</td>
+            <td>{{ r.button3 }}</td>
+            <td>{{ r.latency3|floatformat:3 }} sec</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
